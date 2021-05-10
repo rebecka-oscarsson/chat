@@ -1,0 +1,57 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>Min chat</h1>
+  <p>börja chatta!</p>
+  <!-- jag har kopierat client.dist från node modules till public-mappen och döpt om till socket.io -->
+
+  <ul></ul>
+
+  <form>
+    <input />
+    <button type="submit">skicka</button>
+  </form>
+
+  <script src="socket.io/socket.io.js"></script>
+  <script>
+
+
+
+    const socket = io();
+    const form = document.querySelector("form");
+    const chat = document.querySelector("ul");
+    const input = document.querySelector("input");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (input.value) {
+        socket.emit("meddelande",
+          input.value
+        )
+      } //skickar meddelandet till servern
+      input.value = "";
+    });
+    socket.on("meddelande", (object) => {//tar emot från servern
+      console.log(object)
+      const li = document.createElement("li");
+      li.textContent = object.msg;
+      li.style.backgroundColor=object.farg;
+      chat.appendChild(li)
+    })
+    // socket.on("farg", (color) => {
+    //   const li = document.createElement("li");
+    //   li.textContent = msg.kommentar;
+    //   li.style.backgroundColor=randomColor;
+    //   li.style.padding ="10px";
+    //   chat.appendChild(li)
+    // })
+  </script>
+
+
+</body>
+
+</html>
