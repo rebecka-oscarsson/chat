@@ -54,12 +54,12 @@ socket.on("uppkopplad", (object) => { //tar emot från servern
   const li = document.createElement("li");
   li.textContent = object.anvandare + " entered " + object.tid;
   li.classList.add("connectMsg");
-  chat.prepend(li)
+  chat.appendChild(li);
 })
 
 socket.on("nedkopplad", (object) => { //tar emot från servern
   const li = document.createElement("li");
   li.textContent = object.anvandare + " is out of here";
   li.classList.add("disconnectMsg");
-  chat.prepend(li)
+  chat.appendChild(li);
 })
