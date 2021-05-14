@@ -39,7 +39,7 @@ form.addEventListener("submit", (e) => {
 });
 
 socket.on("meddelande", (object) => { //tar emot från servern
-  const nameElement = document.createElement("span")
+  const nameElement = document.createElement("div")
   nameElement.classList.add("name");
   nameElement.textContent = object.user + " says: ";
   const li = document.createElement("li");
