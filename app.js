@@ -38,7 +38,7 @@ function getTime() {
     var hours = myDate.getHours();
     var minutes = myDate.getMinutes();
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    var myTime = weekday[myDay] + " " + hours + " : " + minutes;
+    var myTime = weekday[myDay] + " " + hours + ":" + minutes;
     return myTime
 }
 
@@ -50,7 +50,6 @@ io.on("connection", function (socket) {
     let username = "AnonymousTurnip";
 
     socket.on("namn", (name) => {
-        console.log(name)
         if(name!=null)
         {username = name};
         io.emit("uppkopplad", {

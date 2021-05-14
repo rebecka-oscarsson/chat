@@ -5,11 +5,10 @@ const input = document.querySelector("input");
 
 function generateUsername()
 {let color = prompt("what is the color of your toothbrush?");
-let veggie = prompt("what is your favourite vegetable?");
+let veggie = prompt("what was the last vegetable you ate?");
 if (!veggie) {veggie = "turnip"}
 if (!color) {color = "anonymous"}
 let name = color.charAt(0).toUpperCase() + color.slice(1) + veggie.charAt(0).toUpperCase() + veggie.slice(1);
-console.log(name)
 socket.emit("namn", name)
 }
 
@@ -40,23 +39,25 @@ form.addEventListener("submit", (e) => {
 });
 
 socket.on("meddelande", (object) => { //tar emot från servern
-  console.log(object)
+  const nameElement = document.createElement("span")
+  nameElement.classList.add("name");
+  nameElement.textContent = object.user + " says: ";
   const li = document.createElement("li");
-  li.innerHTML = `<strong>${object.user}:</strong><br>${object.msg}`;
+  const msg = document.createTextNode(object.msg)
+  li.append(nameElement, msg);
   li.style.backgroundColor = object.farg;
-  chat.prepend(li)
+  chat.appendChild(li)
+  chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 })
 
 socket.on("uppkopplad", (object) => { //tar emot från servern
-  console.log(object)
   const li = document.createElement("li");
-  li.textContent = object.anvandare + " has entered " + object.tid;
+  li.textContent = object.anvandare + " entered " + object.tid;
   li.classList.add("connectMsg");
   chat.prepend(li)
 })
 
 socket.on("nedkopplad", (object) => { //tar emot från servern
-  console.log(object)
   const li = document.createElement("li");
   li.textContent = object.anvandare + " is out of here";
   li.classList.add("disconnectMsg");

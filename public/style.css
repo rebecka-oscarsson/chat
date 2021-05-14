@@ -1,49 +1,52 @@
 body {
-  padding: 50px;
-  font: 1.5em;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
   background-color: rgb(51, 51, 51);
   max-height: 100vh;
-  overflow: auto;
-
-  background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(80, 80, 80, 1) 100%);
+  margin:0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr;
 }
 
 ul {
+  grid-area: 1/1/2/1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 0;
-  padding: 0;
+  overflow: auto;
+  margin-left: 0;
 }
 
-li {
-  padding: 10px;
-  margin: 10px 0 10px 0;
-  border-radius: 10px;
-  list-style-type: none;
-  box-shadow: black 5px 5px 5px;
+form {margin-left:1em;}
 
+li {
+  padding: 1em;
+  margin: 1em;
+  border-radius: 1em;
+  list-style-type: none;
+  list-style-position:inside;
+  box-shadow: black 5px 5px 5px;
+  max-width: 80vw
 }
 
 input {
-  padding: 0.5rem;
-  position: sticky;
-  top: 0;
-  min-width: 300px;
+  grid-area: 2/1/3/1;
   outline: none;
+  margin:1rem;
+  padding:0.8rem;
+  min-width: 25rem; 
 }
 
-.connectMsg {box-shadow: none; color:greenyellow; font-family: 'Courier New', Courier, monospace;}
-.disconnectMsg {box-shadow: none; color:lightcoral; font-family: 'Courier New', Courier, monospace;}
+.connectMsg {box-shadow: none; color:greenyellow; font-family: 'Courier New', Courier, monospace; padding:0; }
+.disconnectMsg {box-shadow: none; color:lightcoral; font-family: 'Courier New', Courier, monospace; padding:0;}
+.name {font-weight: bold;}
 
-@media only screen and (max-width: 600px) {
+@media only screen 
+  and (max-device-width: 700px) {
+  body {font-size: 3em;}
   input {
-    width: 80vw;
-  }
-
-  body {
-    background-color: white;
+    font-size: 3rem;
+    min-width: 15em;
   }
 }
