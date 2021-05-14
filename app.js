@@ -21,24 +21,59 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+function randomVal(min, max) { //ger slumpsiffror till färggenerering
+    return Math.floor(Math.random() * (max - min) + 1) + min;
+}
 
+function getTime() {
+    var myDate = new Date();
+    var myDay = myDate.getDay();
 
+    // Array of days.
+    var weekday = ['Sunday', 'Monday', 'Tuesday',
+        'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    ];
+
+    // get hour value.
+    var hours = myDate.getHours();
+    var minutes = myDate.getMinutes();
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var myTime = weekday[myDay] + " " + hours + " : " + minutes;
+    return myTime
+}
 
 //en middleware på servern som ska logga allt som sker i mina sockets
 io.on("connection", function (socket) {
-    function randomVal(min, max) {
-        return Math.floor(Math.random() * (max - min) + 1) + min;
-    }
-    var randomColor = 'hsl(' + randomVal(0, 360) + ', ' + randomVal(50, 100) + '%,  ' + randomVal(70, 100) + '%)';
+    const randomColor = 'hsl(' + randomVal(0, 360) + ', ' + randomVal(60, 80) + '%,  ' + randomVal(70, 90) + '%)';
     //hue mellan 0-360, saturation 0-100, lightness 0-100
+
+    let username = "AnonymousTurnip";
+
+    socket.on("namn", (name) => {
+        console.log(name)
+        if(name!=null)
+        {username = name};
+        io.emit("uppkopplad", {
+            anvandare: username,
+            tid: getTime()
+        });
+    })
+
+
 
     console.log("användare uppkopplad!");
     socket.on("disconnect", () => {
-        console.log("användare avkopplad")
+        console.log("användare nedkopplad");
+        io.emit("nedkopplad", {
+            anvandare: username
+        });
     })
     socket.on("meddelande", (msg) => {
-        console.log(randomColor);
-        io.emit("meddelande", {msg, farg: randomColor});
+        io.emit("meddelande", {
+            msg,
+            farg: randomColor,
+            user: username
+        });
         //skickar tillbaka till frontenden
     })
 })
