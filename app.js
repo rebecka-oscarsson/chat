@@ -31,16 +31,18 @@ io.on("connection", (socket) => {
         io.emit("userConnected", {
             userName: userObject.userName, time: getTime()
         });
-        socket.emit("userList", app.locals.users);
+        io.emit("userList", app.locals.users);
         console.log(userObject.userName + " ansluten " + getTime());
     })
     
     socket.on("disconnect", () => {  
         let userObject = app.locals.users.find(userObject => userObject.userId === socket.id);
+        let index = app.locals.users.indexOf(userObject);
         io.emit("userDisconnected", {
             userName: userObject.userName, time: getTime()
         });
-        app.locals.users.pop(userObject);
+        app.locals.users.splice(index, 1);
+        io.emit("userList", app.locals.users);
         console.log(userObject.userName + " frånkopplad " + getTime());
     })
 

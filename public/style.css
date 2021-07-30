@@ -7,29 +7,34 @@ body {
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: 1fr;
+  font-size: 1rem
 }
 
-ul {
+.chat {
   grid-area: 1/1/2/1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   overflow: auto;
   margin-left: 0;
 }
 
 form {margin-left:1em; display:flex; flex-direction: column; align-items: center;}
 
-li {
+li {list-style-type: none;
+  list-style-position:inside;}
+
+.chat li {
   padding: 1em;
   margin: 1em;
   border-radius: 1em;
-  list-style-type: none;
-  list-style-position:inside;
   box-shadow: black 5px 5px 5px;
   max-width:90vw;
 }
+
+.userList {grid-area: 1/1/2/1; color:whitesmoke; justify-self:flex-end; padding:1em}
+.userList li:first-child {text-decoration: underline; margin-bottom: 0.5em;}
 
 input {
   grid-area: 2/1/3/1;
@@ -39,17 +44,18 @@ input {
   min-width: 25rem; 
 }
 
-label {color:pink}
+label {color:whitesmoke}
 
-.connectMsg {box-shadow: none; color:greenyellow; font-family: 'Courier New', Courier, monospace; padding:0; }
-.disconnectMsg {box-shadow: none; color:lightcoral; font-family: 'Courier New', Courier, monospace; padding:0;}
+.chat li.connectMsg {box-shadow: none; color:greenyellow; font-family: 'Consolas', 'Courier New', Courier, monospace; padding:0; }
+.chat li.disconnectMsg {box-shadow: none; color:lightcoral; font-family: 'Consolas', 'Courier New', Courier, monospace; padding:0;}
 .name {font-weight: bold;}
 
 @media only screen 
   and (max-device-width: 700px) {
-  body {font-size: 3em;}
+  body {font-size: 2rem;}
   input {
-    font-size: 3rem;
-    min-width: 15em;
+    font-size: 2rem;
+    min-width: 80%;
   }
+  .userList {display:none; grid-area: 1/1/2/1; color:whitesmoke; justify-self:flex-end; padding:1em}
 }

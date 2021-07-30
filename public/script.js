@@ -1,7 +1,8 @@
 const socket = io();
 const form = document.querySelector("form");
-const chat = document.querySelector("ul");
+const chat = document.querySelector(".chat");
 const input = document.querySelector("input");
+const userList = document.querySelector(".userList");
 
 function sendUserName() {
   let userParams = new URLSearchParams(window.location.search);
@@ -43,16 +44,27 @@ socket.on("formatedMessage", (messageObject) => { //tar emot från servern
 
 socket.on("userConnected", (messageInfo) => { //tar emot från servern
   const li = document.createElement("li");
-  li.textContent = messageInfo.userName + " has arrived " + messageInfo.time;
+  li.textContent = messageInfo.userName + " has arrived, " + messageInfo.time;
   li.classList.add("connectMsg");
   chat.appendChild(li);
 })
 
 socket.on("userDisconnected", (logoutObject) => { //tar emot från servern
   const li = document.createElement("li");
-  li.textContent = logoutObject.userName + " is out of here " + logoutObject.time;
+  li.textContent = logoutObject.userName + " is out of here, " + logoutObject.time;
   li.classList.add("disconnectMsg");
   chat.appendChild(li);
 })
 
-socket.on("userList", (userList) => {console.log(userList)})
+socket.on("userList", (users) => {
+  userList.innerHTML ="";
+  const heading = document.createElement("li");
+  heading.textContent = "Who is here?"
+  userList.appendChild(heading);
+  for (user in users) {
+  const li = document.createElement("li");
+  const userName = document.createTextNode(users[user].userName);
+  li.appendChild(userName);
+  userList.appendChild(li);
+  }
+})

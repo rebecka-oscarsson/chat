@@ -1,8 +1,4 @@
 function createUserObject (enteredName, userId) {
-    // let userName = "AnonymousTurnip";
-    // if (enteredName != null) {
-    //     userName = enteredName
-    // }
     const userColor = 'hsl(' + randomVal(0, 360) + ', ' + randomVal(60, 80) + '%,  ' + randomVal(70, 90) + '%)';
     //hue mellan 0-360, saturation 0-100, lightness 0-100
     userObject = {userName: enteredName, userColor: userColor, userId: userId}
