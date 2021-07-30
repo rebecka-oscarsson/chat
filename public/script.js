@@ -3,63 +3,56 @@ const form = document.querySelector("form");
 const chat = document.querySelector("ul");
 const input = document.querySelector("input");
 
-function generateUsername()
-{let color = prompt("what is the color of your toothbrush?");
-let veggie = prompt("what was the last vegetable you ate?");
-if (!veggie) {veggie = "turnip"}
-if (!color) {color = "anonymous"}
-let name = color.charAt(0).toUpperCase() + color.slice(1) + veggie.charAt(0).toUpperCase() + veggie.slice(1);
-socket.emit("namn", name)
+function sendUserName() {
+  let userParams = new URLSearchParams(window.location.search);
+  let color = userParams.getAll("color").toString();
+  let vegetable = userParams.getAll("vegetable").toString();
+  if (!vegetable) {
+    vegetable = "turnip"
+  }
+  if (!color) {
+    color = "anonymous"
+  }
+  let name = color.charAt(0).toUpperCase() + color.slice(1) + vegetable.charAt(0).toUpperCase() + vegetable.slice(1);
+  socket.emit("connected", name)
 }
 
-generateUsername();
-
-//generell funktion som hämtar data och kör en callbackfunktion med datan som parameter
-// function getData(url, callbackFunction) {
-//   fetch(url)
-//       .then(response => response.json())
-//       .then(data => {
-//           if (callbackFunction) {
-//               callbackFunction(data)
-//           }
-//       })
-//       .catch(function(err) {
-//           console.log('Något gick fel', err);
-//       });
-// }
+sendUserName(); //körs när man kommer in i chatten, då skickas namnet till backend
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   if (input.value) {
-    socket.emit("meddelande",
+    socket.emit("chatMessage",
       input.value
     )
   } //skickar meddelandet till servern
   input.value = ""; //tömmer input
 });
 
-socket.on("meddelande", (object) => { //tar emot från servern
+socket.on("formatedMessage", (messageObject) => { //tar emot från servern
   const nameElement = document.createElement("div")
   nameElement.classList.add("name");
-  nameElement.textContent = object.user + " says: ";
+  nameElement.textContent = messageObject.userName + " says: ";
   const li = document.createElement("li");
-  const msg = document.createTextNode(object.msg)
+  const msg = document.createTextNode(messageObject.message);
   li.append(nameElement, msg);
-  li.style.backgroundColor = object.farg;
+  li.style.backgroundColor = messageObject.userColor;
   chat.appendChild(li)
   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 })
 
-socket.on("uppkopplad", (object) => { //tar emot från servern
+socket.on("userConnected", (messageInfo) => { //tar emot från servern
   const li = document.createElement("li");
-  li.textContent = object.anvandare + " entered " + object.tid;
+  li.textContent = messageInfo.userName + " has arrived " + messageInfo.time;
   li.classList.add("connectMsg");
   chat.appendChild(li);
 })
 
-socket.on("nedkopplad", (object) => { //tar emot från servern
+socket.on("userDisconnected", (logoutObject) => { //tar emot från servern
   const li = document.createElement("li");
-  li.textContent = object.anvandare + " is out of here";
+  li.textContent = logoutObject.userName + " is out of here " + logoutObject.time;
   li.classList.add("disconnectMsg");
   chat.appendChild(li);
 })
+
+socket.on("userList", (userList) => {console.log(userList)})

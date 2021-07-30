@@ -1,16 +1,17 @@
 <html>
 
 <head>
-  <title>Fjurp</title>
+  <title>The Black Hole</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  <script src="socket.io/socket.io.js"></script>
-  <!-- jag har kopierat client.dist från node modules till public-mappen och döpt om till socket.io -->
 </head>
 
 <body>
-  <form>
-    <input placeholder="type message and press enter" />
+  <form action="chat.html">
+    <label for="color">Color of my toothbrush: </label>
+    <input name ="color" id="color"/>
+    <label for="vegetable">Favourite vegetable: </label>
+    <input name="vegetable" id="vegetable"/>
+    <button type="submit" id="connectBtn">Send</button>
   </form>
   <ul></ul>
 </body>

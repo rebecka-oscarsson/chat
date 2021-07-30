@@ -3,11 +3,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const { createMessageObject, getTime } = require('./messages')
+const createUserObject = require('./users');
+
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
-const server = require("http").Server(app); //ändrat här
+const server = require("http").Server(app); //ändrat i express-template här
 const io = require("socket.io")(server); //och här
 
 app.use(logger('dev'));
@@ -17,63 +19,37 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-function randomVal(min, max) { //ger slumpsiffror till färggenerering
-    return Math.floor(Math.random() * (max - min) + 1) + min;
-}
-
-function getTime() {
-    var myDate = new Date();
-    var myDay = myDate.getDay();
-
-    // Array of days.
-    var weekday = ['Sunday', 'Monday', 'Tuesday',
-        'Wednesday', 'Thursday', 'Friday', 'Saturday'
-    ];
-
-    // get hour value.
-    var hours = myDate.getHours();
-    var minutes = myDate.getMinutes();
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var myTime = weekday[myDay] + " " + hours + ":" + minutes;
-    return myTime
-}
-
 //en middleware på servern som ska logga allt som sker i mina sockets
-io.on("connection", function (socket) {
-    const randomColor = 'hsl(' + randomVal(0, 360) + ', ' + randomVal(60, 80) + '%,  ' + randomVal(70, 90) + '%)';
-    //hue mellan 0-360, saturation 0-100, lightness 0-100
 
-    let username = "AnonymousTurnip";
+app.locals.users = [];
 
-    socket.on("namn", (name) => {
-        if(name!=null)
-        {username = name};
-        io.emit("uppkopplad", {
-            anvandare: username,
-            tid: getTime()
+io.on("connection", (socket) => {
+    socket.on("connected", (enteredName) => {
+        let userObject = createUserObject(enteredName, socket.id);
+        app.locals.users.push(userObject);
+        io.emit("userConnected", {
+            userName: userObject.userName, time: getTime()
         });
+        socket.emit("userList", app.locals.users);
+        console.log(userObject.userName + " ansluten " + getTime());
+    })
+    
+    socket.on("disconnect", () => {  
+        let userObject = app.locals.users.find(userObject => userObject.userId === socket.id);
+        io.emit("userDisconnected", {
+            userName: userObject.userName, time: getTime()
+        });
+        app.locals.users.pop(userObject);
+        console.log(userObject.userName + " frånkopplad " + getTime());
     })
 
-
-
-    console.log("användare uppkopplad!");
-    socket.on("disconnect", () => {
-        console.log("användare nedkopplad");
-        io.emit("nedkopplad", {
-            anvandare: username
-        });
-    })
-    socket.on("meddelande", (msg) => {
-        io.emit("meddelande", {
-            msg,
-            farg: randomColor,
-            user: username
-        });
-        //skickar tillbaka till frontenden
+    socket.on("chatMessage", (message) => {
+        let userObject = app.locals.users.find(userObject => userObject.userId === socket.id)
+        let messageObject = createMessageObject(message, userObject);
+        console.log(messageObject.userName + " skrev: " + messageObject.message)
+        io.emit("formatedMessage", messageObject //skickar tillbaka till frontenden
+        );
     })
 })
 
