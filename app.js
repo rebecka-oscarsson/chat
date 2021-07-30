@@ -54,11 +54,13 @@ io.on("connection", (socket) => {
     })
 
     socket.on("chatMessage", (message) => {
-        let userObject = app.locals.users.find(userObject => userObject.userId === socket.id)
-        let messageObject = createMessageObject(message, userObject);
-        console.log(messageObject.userName + " skrev: " + messageObject.message)
-        io.emit("formatedMessage", messageObject //skickar tillbaka till frontenden
-        );
+        let userObject = app.locals.users.find(userObject => userObject.userId === socket.id);
+        if (userObject) { //för att undvika krasch om userObject inte går att hämta
+            let messageObject = createMessageObject(message, userObject);
+            console.log(messageObject.userName + " skrev: " + messageObject.message)
+            io.emit("formatedMessage", messageObject //skickar tillbaka till frontenden
+            );
+        }
     })
 })
 

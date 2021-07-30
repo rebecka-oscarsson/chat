@@ -1,5 +1,4 @@
 function createMessageObject(message, userObject) {
-    if(userObject)
     {let messageObject = userObject;
     messageObject.message = message;
     messageObject.time = getTime();

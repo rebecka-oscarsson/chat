@@ -10,6 +10,8 @@ body {
   font-size: 1rem
 }
 
+button {padding: 0.6em; margin: 0.6em}
+
 .chat {
   grid-area: 1/1/2/1;
   display: flex;
@@ -107,4 +109,6 @@ label {
   .hidden {
     display: none
   }
+
+  button {font-size: xx-large}
 }
