@@ -3,7 +3,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const { createMessageObject, getTime } = require('./messages')
+const {
+    createMessageObject,
+    getTime
+} = require('./messages')
 const createUserObject = require('./users');
 
 var indexRouter = require('./routes/index');
@@ -29,21 +32,25 @@ io.on("connection", (socket) => {
         let userObject = createUserObject(enteredName, socket.id);
         app.locals.users.push(userObject);
         io.emit("userConnected", {
-            userName: userObject.userName, time: getTime()
+            userName: userObject.userName,
+            time: getTime()
         });
         io.emit("userList", app.locals.users);
         console.log(userObject.userName + " ansluten " + getTime());
     })
-    
-    socket.on("disconnect", () => {  
+
+    socket.on("disconnect", () => {
         let userObject = app.locals.users.find(userObject => userObject.userId === socket.id);
-        let index = app.locals.users.indexOf(userObject);
-        io.emit("userDisconnected", {
-            userName: userObject.userName, time: getTime()
-        });
-        app.locals.users.splice(index, 1);
-        io.emit("userList", app.locals.users);
-        console.log(userObject.userName + " frånkopplad " + getTime());
+        if (userObject) { //för att undvika krasch om userObject inte går att hämta
+            let index = app.locals.users.indexOf(userObject);
+            io.emit("userDisconnected", {
+                userName: userObject.userName,
+                time: getTime()
+            });
+            app.locals.users.splice(index, 1);
+            io.emit("userList", app.locals.users);
+            console.log(userObject.userName + " frånkopplad " + getTime());
+        }
     })
 
     socket.on("chatMessage", (message) => {

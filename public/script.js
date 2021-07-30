@@ -57,14 +57,28 @@ socket.on("userDisconnected", (logoutObject) => { //tar emot från servern
 })
 
 socket.on("userList", (users) => {
-  userList.innerHTML ="";
+  userList.innerHTML = "";
   const heading = document.createElement("li");
-  heading.textContent = "Who is here?"
+  heading.textContent = "Who is here?";
+  heading.id = "usersHeading"
   userList.appendChild(heading);
   for (user in users) {
-  const li = document.createElement("li");
-  const userName = document.createTextNode(users[user].userName);
-  li.appendChild(userName);
-  userList.appendChild(li);
+    const li = document.createElement("li");
+    li.classList.add("hidden")
+    li.classList.add("userNames")
+    const userName = document.createTextNode(users[user].userName);
+    li.appendChild(userName);
+    userList.appendChild(li);
   }
+  userList.addEventListener("click", (e)=> {e.preventDefault; toggleUsers()})
 })
+
+
+
+function toggleUsers() {
+  let users = document.querySelectorAll(".userNames");
+  console.log(users)
+  for (let index = 0; index < users.length; index++) {
+    users[index].classList.toggle("hidden")
+  };
+}

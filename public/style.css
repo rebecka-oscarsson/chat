@@ -1,9 +1,9 @@
 body {
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background-color: rgb(51, 51, 51);
   max-height: 100vh;
-  max-width:100vw;
-  margin:0;
+  max-width: 100vw;
+  margin: 0;
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: 1fr;
@@ -20,42 +20,91 @@ body {
   margin-left: 0;
 }
 
-form {margin-left:1em; display:flex; flex-direction: column; align-items: center;}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
 
-li {list-style-type: none;
-  list-style-position:inside;}
+li {
+  list-style-type: none;
+  list-style-position: inside;
+}
 
 .chat li {
   padding: 1em;
   margin: 1em;
   border-radius: 1em;
   box-shadow: black 5px 5px 5px;
-  max-width:90vw;
+  max-width: 90vw;
 }
 
-.userList {grid-area: 1/1/2/1; color:whitesmoke; justify-self:flex-end; padding:1em}
-.userList li:first-child {text-decoration: underline; margin-bottom: 0.5em;}
+.userList {
+  grid-area: 1/1/2/1;
+  color: whitesmoke;
+  justify-self: flex-end;
+  padding: 1em
+}
+
+.userList li:first-child {
+  text-decoration: underline;
+  margin-bottom: 0.5em;
+}
 
 input {
   grid-area: 2/1/3/1;
   outline: none;
-  margin:1rem;
-  padding:0.8rem;
-  min-width: 25rem; 
+  margin: 1rem;
+  padding: 0.8rem;
+  min-width: 25rem;
 }
 
-label {color:whitesmoke}
+label {
+  color: whitesmoke
+}
 
-.chat li.connectMsg {box-shadow: none; color:greenyellow; font-family: 'Consolas', 'Courier New', Courier, monospace; padding:0; }
-.chat li.disconnectMsg {box-shadow: none; color:lightcoral; font-family: 'Consolas', 'Courier New', Courier, monospace; padding:0;}
-.name {font-weight: bold;}
+.chat li.connectMsg {
+  box-shadow: none;
+  color: greenyellow;
+  font-family: 'Consolas', 'Courier New', Courier, monospace;
+  padding: 0;
+}
 
-@media only screen 
-  and (max-device-width: 700px) {
-  body {font-size: 2rem;}
-  input {
-    font-size: 2rem;
-    min-width: 80%;
+.chat li.disconnectMsg {
+  box-shadow: none;
+  color: lightcoral;
+  font-family: 'Consolas', 'Courier New', Courier, monospace;
+  padding: 0;
+}
+
+.name {
+  font-weight: bold;
+}
+
+@media only screen and (max-device-width: 700px) {
+  body {
+    font-size: xx-large;
   }
-  .userList {display:none; grid-area: 1/1/2/1; color:whitesmoke; justify-self:flex-end; padding:1em}
+
+  input {
+    font-size: xx-large;
+    width: 80%;
+    padding: 0.5em;
+    margin:0;
+  }
+
+  .userList {
+    padding-top: 0.5em;
+  }
+
+  .userNames {background-color:rgb(51, 51, 51);}
+
+  .chat {
+    margin-top: 6rem
+  }
+
+  .hidden {
+    display: none
+  }
 }
