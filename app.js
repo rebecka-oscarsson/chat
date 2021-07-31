@@ -30,7 +30,7 @@ app.use('/', indexRouter);
 app.locals.users = [];
 app.locals.messages = [];
 
-function handleError() {
+function handleError(socket) {
     console.log("crasch bang boom");
     messageObject = {
         userName: "MrSmith",
@@ -75,7 +75,7 @@ io.on("connection", (socket) => {
             console.log(userObject.userName + " frånkopplad " + getTime());
         }
         else {
-            handleError();
+            handleError(socket);
         }
     })
 
@@ -89,7 +89,7 @@ io.on("connection", (socket) => {
             );
         }
         else {
-            handleError();
+            handleError(socket);
         } 
     })
 })
