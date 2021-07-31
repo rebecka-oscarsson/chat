@@ -5,8 +5,10 @@ var logger = require('morgan');
 
 const {
     createMessageObject,
-    getTime
+    getTime,
+    saveMessages
 } = require('./messages')
+
 const createUserObject = require('./users');
 
 var indexRouter = require('./routes/index');
@@ -26,11 +28,18 @@ app.use('/', indexRouter);
 //en middleware på servern som ska logga allt som sker i mina sockets
 
 app.locals.users = [];
+app.locals.messages = [];
 
 io.on("connection", (socket) => {
     socket.on("connected", (enteredName) => {
         let userObject = createUserObject(enteredName, socket.id);
         app.locals.users.push(userObject);
+        if (app.locals.messages) {
+            for (let index = 0; index < app.locals.messages.length; index++) {
+                socket.emit("formatedMessage", app.locals.messages[index] //skickar gamla meddelanden till den nyss anslutna
+                );
+            }
+        }
         io.emit("userConnected", {
             userName: userObject.userName,
             time: getTime()
@@ -60,8 +69,11 @@ io.on("connection", (socket) => {
             console.log(messageObject.userName + " skrev: " + messageObject.message)
             io.emit("formatedMessage", messageObject //skickar tillbaka till frontenden
             );
+            saveMessages(app.locals.messages, messageObject) //sparar senaste två meddelanden för att visa vid inlogg
         }
     })
+
+    
 })
 
 module.exports = {

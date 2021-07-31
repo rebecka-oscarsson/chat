@@ -31,12 +31,15 @@ form.addEventListener("submit", (e) => {
 });
 
 socket.on("formatedMessage", (messageObject) => { //tar emot från servern
-  const nameElement = document.createElement("div")
+  const li = document.createElement("li");
+  const timeElement = document.createElement("div");
+  const nameElement = document.createElement("div");
+  timeElement.textContent = messageObject.time;
+  timeElement.classList.add("time");
   nameElement.classList.add("name");
   nameElement.textContent = messageObject.userName + " says: ";
-  const li = document.createElement("li");
   const msg = document.createTextNode(messageObject.message);
-  li.append(nameElement, msg);
+  li.append(nameElement, msg, timeElement);
   li.style.backgroundColor = messageObject.userColor;
   chat.appendChild(li)
   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
@@ -73,11 +76,8 @@ socket.on("userList", (users) => {
   userList.addEventListener("click", (e)=> {e.preventDefault; toggleUsers()})
 })
 
-
-
 function toggleUsers() {
   let users = document.querySelectorAll(".userNames");
-  console.log(users)
   for (let index = 0; index < users.length; index++) {
     users[index].classList.toggle("hidden")
   };

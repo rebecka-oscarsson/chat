@@ -18,4 +18,14 @@ function getTime() {
     return myTime
 }
 
-module.exports = {createMessageObject, getTime}
+function saveMessages(messageArray, messageObject) {
+    if (messageArray.length > 1) {
+        messageArray.shift();
+    }
+    let messageToSave = {
+        ...messageObject
+    } //måste använda spread operator annars ändras alla föregående
+    messageArray.push(messageToSave);
+}
+
+module.exports = {createMessageObject, getTime, saveMessages}

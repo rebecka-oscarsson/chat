@@ -19,7 +19,6 @@ button {padding: 0.6em; margin: 0.6em}
   justify-content: flex-start;
   align-items: center;
   overflow: auto;
-  margin-left: 0;
 }
 
 form {
@@ -35,23 +34,24 @@ li {
 }
 
 .chat li {
-  padding: 1em;
-  margin: 1em;
-  border-radius: 1em;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 1rem;
   box-shadow: black 5px 5px 5px;
-  max-width: 90vw;
+  max-width: 60vw;
+  overflow-wrap: break-word;
 }
 
 .userList {
   grid-area: 1/1/2/1;
   color: whitesmoke;
   justify-self: flex-end;
-  padding: 1em
+  padding: 1rem
 }
 
 .userList li:first-child {
   text-decoration: underline;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5rem;
 }
 
 input {
@@ -82,33 +82,47 @@ label {
 
 .name {
   font-weight: bold;
+  overflow-wrap: normal;
 }
+
+.time {font-style: italic; text-align: end; font-size: small;}
 
 @media only screen and (max-device-width: 700px) {
   body {
-    font-size: xx-large;
+    font-size: 3rem;
   }
 
   input {
-    font-size: xx-large;
+    font-size: 3rem;
     width: 80%;
-    padding: 0.5em;
+    padding: 0.5rem;
     margin:0;
   }
 
   .userList {
-    padding-top: 0.5em;
+    padding-top: 0.5rem;
+    display:block;
+    background-color:rgb(51, 51, 51);
   }
 
-  .userNames {background-color:rgb(51, 51, 51);}
+  .connectMsg {font-size: 2rem;}
+
+  .userNames {background-color:rgb(51, 51, 51); position:relative; z-index: 1;}
 
   .chat {
-    margin-top: 6rem
+    margin-top: 6rem;
+    position:relative;
+    z-index: 0;
+    padding:0;
+  }
+
+  .chat li {
+    max-width: 80vw;
   }
 
   .hidden {
     display: none
   }
 
-  button {font-size: xx-large}
+  button {font-size: 3rem}
 }
