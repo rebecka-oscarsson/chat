@@ -35,13 +35,12 @@ function handleError(socket) {
     messageObject = {
         userName: "MrSmith",
         userColor: "lightgreen",
+        userId: "smith",
         message: "The chat had to be reloaded due to a glitch in the Matrix",
         time: "3021 AD"
     };
     saveMessages(app.locals.messages, messageObject);
     socket.emit("error");
-    // io.emit("formatedMessage", messageObject); 
-    // return messageObject;
 }
 
 io.on("connection", (socket) => {
@@ -75,7 +74,7 @@ io.on("connection", (socket) => {
             console.log(userObject.userName + " frånkopplad " + getTime());
         }
         else {
-            handleError(socket);
+            socket.emit("error");
         }
     })
 

@@ -32,19 +32,17 @@ form.addEventListener("submit", (e) => {
 
 socket.on("error", () => {
     window.location.replace(window.location.href);
+    console.log("error")
 })
 
 socket.on("formatedMessage", (messageObject) => {
-  // if (messageObject.time == "3021 AD") {
-  //   window.location.replace(window.location.href);
-  //   (printMessage(messageObject));
-  // } else {
-    printMessage(messageObject);
-  // }
+  console.log("meddelande mottaget" + messageObject.id)
+  printMessage(messageObject);
   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 })
 
 function printMessage(messageObject) {
+  console.log("meddelande skrivs ut" + messageObject.id)
   const li = document.createElement("li");
   const timeElement = document.createElement("div");
   const nameElement = document.createElement("div");

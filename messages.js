@@ -19,7 +19,7 @@ function getTime() {
 }
 
 function saveMessages(messageArray, messageObject) {
-    if (messageArray.length > 1) {
+    if (messageArray.length > 2) {
         messageArray.shift();
     }
     let messageToSave = {
