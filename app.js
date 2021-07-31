@@ -37,7 +37,8 @@ function handleError() {
         userColor: "lightgreen",
         message: "The chat had to be reloaded due to a glitch in the Matrix",
         time: "3021 AD"
-    }
+    };
+    saveMessages(app.locals.messages, messageObject);
     io.emit("formatedMessage", messageObject); 
     return messageObject;
 }
@@ -87,7 +88,6 @@ io.on("connection", (socket) => {
             );
         }
         else {
-            saveMessages(app.locals.messages, messageObject);
             handleError();
         } 
     })
