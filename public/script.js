@@ -7,14 +7,14 @@ const userList = document.querySelector(".userList");
 function sendUserName() {
   let userParams = new URLSearchParams(window.location.search);
   let color = userParams.getAll("color").toString();
-  let vegetable = userParams.getAll("vegetable").toString();
-  if (!vegetable) {
-    vegetable = "turnip"
+  let food = userParams.getAll("food").toString();
+  if (!food) {
+    food = "turnip"
   }
   if (!color) {
     color = "anonymous"
   }
-  let name = color.charAt(0).toUpperCase() + color.slice(1) + vegetable.charAt(0).toUpperCase() + vegetable.slice(1);
+  let name = color.charAt(0).toUpperCase() + color.slice(1) + food.charAt(0).toUpperCase() + food.slice(1);
   socket.emit("connected", name)
 }
 
@@ -31,7 +31,7 @@ form.addEventListener("submit", (e) => {
 });
 
 socket.on("formatedMessage", (messageObject) => {
-  if(messageObject.time == "3021 AD") {window.location.reload()};
+  if(messageObject.time == "3021 AD") {window.location.replace(window.location.href)};
   const li = document.createElement("li");
   const timeElement = document.createElement("div");
   const nameElement = document.createElement("div");
