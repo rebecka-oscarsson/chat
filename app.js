@@ -30,6 +30,19 @@ app.use('/', indexRouter);
 app.locals.users = [];
 app.locals.messages = [];
 
+function handleError() {
+    console.log("crasch bang boom");
+    location.reload();
+    messageObject = {
+        userName: "MrSmith",
+        userColor: "lightgreen",
+        message: "The chat had to be reloaded due to a glitch in the Matrix",
+        time: "3021 AD"
+    }
+    io.emit("formatedMessage", messageObject);
+    return messageObject;
+}
+
 io.on("connection", (socket) => {
     socket.on("connected", (enteredName) => {
         let userObject = createUserObject(enteredName, socket.id);
@@ -60,20 +73,24 @@ io.on("connection", (socket) => {
             io.emit("userList", app.locals.users);
             console.log(userObject.userName + " frånkopplad " + getTime());
         }
+        else {
+            handleError();
+        }
     })
 
     socket.on("chatMessage", (message) => {
         let userObject = app.locals.users.find(userObject => userObject.userId === socket.id);
         if (userObject) { //för att undvika krasch om userObject inte går att hämta
             let messageObject = createMessageObject(message, userObject);
-            console.log(messageObject.userName + " skrev: " + messageObject.message)
+            console.log(messageObject.userName + " skrev: " + messageObject.message);
+            saveMessages(app.locals.messages, messageObject) //sparar senaste två meddelanden för att visa vid inlogg
             io.emit("formatedMessage", messageObject //skickar tillbaka till frontenden
             );
-            saveMessages(app.locals.messages, messageObject) //sparar senaste två meddelanden för att visa vid inlogg
         }
+        else {
+            handleError();
+        } 
     })
-
-    
 })
 
 module.exports = {
