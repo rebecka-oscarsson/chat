@@ -32,14 +32,13 @@ app.locals.messages = [];
 
 function handleError() {
     console.log("crasch bang boom");
-    location.reload();
     messageObject = {
         userName: "MrSmith",
         userColor: "lightgreen",
         message: "The chat had to be reloaded due to a glitch in the Matrix",
         time: "3021 AD"
     }
-    io.emit("formatedMessage", messageObject);
+    io.emit("formatedMessage", messageObject); 
     return messageObject;
 }
 

@@ -30,7 +30,8 @@ form.addEventListener("submit", (e) => {
   input.value = ""; //tömmer input
 });
 
-socket.on("formatedMessage", (messageObject) => { //tar emot från servern
+socket.on("formatedMessage", (messageObject) => {
+  if(messageObject.time == "3021 AD") {window.location.reload()};
   const li = document.createElement("li");
   const timeElement = document.createElement("div");
   const nameElement = document.createElement("div");
