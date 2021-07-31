@@ -39,8 +39,9 @@ function handleError() {
         time: "3021 AD"
     };
     saveMessages(app.locals.messages, messageObject);
-    io.emit("formatedMessage", messageObject); 
-    return messageObject;
+    socket.emit("error");
+    // io.emit("formatedMessage", messageObject); 
+    // return messageObject;
 }
 
 io.on("connection", (socket) => {

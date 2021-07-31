@@ -30,13 +30,17 @@ form.addEventListener("submit", (e) => {
   input.value = ""; //tömmer input
 });
 
-socket.on("formatedMessage", (messageObject) => {
-  if (messageObject.time == "3021 AD") {
+socket.on("error", () => {
     window.location.replace(window.location.href);
-    (printMessage(messageObject));
-  } else {
+})
+
+socket.on("formatedMessage", (messageObject) => {
+  // if (messageObject.time == "3021 AD") {
+  //   window.location.replace(window.location.href);
+  //   (printMessage(messageObject));
+  // } else {
     printMessage(messageObject);
-  }
+  // }
   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 })
 
