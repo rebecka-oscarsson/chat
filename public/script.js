@@ -31,7 +31,16 @@ form.addEventListener("submit", (e) => {
 });
 
 socket.on("formatedMessage", (messageObject) => {
-  if(messageObject.time == "3021 AD") {window.location.replace(window.location.href)};
+  if (messageObject.time == "3021 AD") {
+    window.location.replace(window.location.href);
+    printMessage(messageObject);
+  } else {
+    printMessage(messageObject);
+  }
+  chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+})
+
+function printMessage(messageObject) {
   const li = document.createElement("li");
   const timeElement = document.createElement("div");
   const nameElement = document.createElement("div");
@@ -42,9 +51,8 @@ socket.on("formatedMessage", (messageObject) => {
   const msg = document.createTextNode(messageObject.message);
   li.append(nameElement, msg, timeElement);
   li.style.backgroundColor = messageObject.userColor;
-  chat.appendChild(li)
-  chat.scrollTop = chat.scrollHeight - chat.clientHeight;
-})
+  chat.appendChild(li);
+}
 
 socket.on("userConnected", (messageInfo) => { //tar emot från servern
   const li = document.createElement("li");
@@ -74,7 +82,10 @@ socket.on("userList", (users) => {
     li.appendChild(userName);
     userList.appendChild(li);
   }
-  userList.addEventListener("click", (e)=> {e.preventDefault; toggleUsers()})
+  userList.addEventListener("click", (e) => {
+    e.preventDefault;
+    toggleUsers()
+  })
 })
 
 function toggleUsers() {
