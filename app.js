@@ -87,6 +87,7 @@ io.on("connection", (socket) => {
             );
         }
         else {
+            saveMessages(app.locals.messages, messageObject);
             handleError();
         } 
     })

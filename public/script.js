@@ -33,7 +33,7 @@ form.addEventListener("submit", (e) => {
 socket.on("formatedMessage", (messageObject) => {
   if (messageObject.time == "3021 AD") {
     window.location.replace(window.location.href);
-    printMessage(messageObject);
+    (printMessage(messageObject));
   } else {
     printMessage(messageObject);
   }
