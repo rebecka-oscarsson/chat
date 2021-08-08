@@ -28,7 +28,7 @@ export function printMessage(messageObject) {
 function formatTime(time) {
   let date = new Date(time);
   console.log("utan offset: ", date);
-  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
   console.log("med time offset: ", date);
   let timeStamp = Intl.DateTimeFormat('en', {
       weekday: 'long',
