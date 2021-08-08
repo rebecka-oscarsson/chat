@@ -1,30 +1,26 @@
+const moment = require('moment');
+
+//skapar objekt med info om användare samt chatmeddelande
 function createMessageObject(message, userObject) {
-    {let messageObject = userObject;
+    let messageObject = userObject;
     messageObject.message = message;
     messageObject.time = getTime();
-    return messageObject}
+    return messageObject;
 }
 
+//hämtar aktuell tid
 function getTime() {
-    var myDate = new Date();
-    var myDay = myDate.getDay();
-    var weekday = ['Sunday', 'Monday', 'Tuesday',
-        'Wednesday', 'Thursday', 'Friday', 'Saturday'
-    ];
-    var hours = myDate.getHours();
-    var minutes = myDate.getMinutes();
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var myTime = weekday[myDay] + " " + hours + ":" + minutes;
-    return myTime
+    return moment().format('dddd H:mm')
 }
 
+//sparar meddelanden
 function saveMessages(messageArray, messageObject) {
     if (messageArray.length > 2) {
         messageArray.shift();
     }
     let messageToSave = {
         ...messageObject
-    } //måste använda spread operator annars ändras alla föregående
+    } //måste använda spread operator här annars ändras alla föregående
     messageArray.push(messageToSave);
 }
 
