@@ -10,7 +10,8 @@ function createMessageObject(message, userObject) {
 
 //hämtar aktuell tid
 function getTime() {
-    return moment().format('dddd H:mm')
+    // return moment().format('dddd H:mm')
+    return new Date()
 }
 
 //sparar meddelanden

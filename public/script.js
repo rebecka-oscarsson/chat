@@ -1,6 +1,13 @@
 //importer
-import { printMessage, printConnectionMessage, printErrorMessage } from './messages.mjs';
-import { sendUserName, printUserList } from './users.mjs';
+import {
+  printMessage,
+  printConnectionMessage,
+  printErrorMessage
+} from './messages.mjs';
+import {
+  sendUserName,
+  printUserList
+} from './users.mjs';
 
 //variabler
 const socket = io();
@@ -9,16 +16,22 @@ const chat = document.querySelector(".chat");
 const input = document.querySelector("input");
 
 //körs när sidan laddas
-sendUserName(socket); 
-printErrorMessage(); 
+sendUserName(socket);
+printErrorMessage();
+
+// console.log(new Date().getTimezoneOffset())
+// console.log(Intl.DateTimeFormat('en', {
+//   weekday: 'long',
+//   hour: "numeric",
+//   minute: "numeric",
+//   hour12: false
+// }).format(new Date()))
 
 //skickar chatmeddelande till backend
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   if (input.value) {
-    socket.emit("messageSent",
-      input.value
-    )
+    socket.emit("messageSent", input.value)
   }
   input.value = "";
 });
@@ -43,4 +56,3 @@ socket.on("displayMessage", (messageObject) => {
 socket.on("userList", (users) => {
   printUserList(users)
 })
-
