@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 //skapar objekt med info om användare samt chatmeddelande
 function createMessageObject(message, userObject) {
     let messageObject = userObject;
@@ -10,7 +8,6 @@ function createMessageObject(message, userObject) {
 
 //hämtar aktuell tid
 function getTime() {
-    // return moment().format('dddd H:mm')
     return new Date()
 }
 
