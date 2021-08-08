@@ -25,21 +25,6 @@ export function printMessage(messageObject) {
   chat.appendChild(li);
 }
 
-function formatTime(time) {
-  let date = new Date(time);
-  console.log("utan offset: ", date);
-  // let test = date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-  // console.log("med time offset: ", test);
-  let timeStamp = Intl.DateTimeFormat('en', {
-      weekday: 'long',
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false
-    }).format(date);
-    console.log("färdigt? ", timeStamp)
-    return timeStamp
-}
-
 //lägger till anslutnings-meddelanden i DOMen
 export function printConnectionMessage(info) {
   const li = document.createElement("li");
@@ -64,4 +49,16 @@ export function printErrorMessage() {
   {
     sessionStorage.removeItem("error");
   }
+}
+
+//gör om tiden från backend till användarens tidszon + snyggt format
+function formatTime(time) {
+  let date = new Date(time);
+  let timeStamp = Intl.DateTimeFormat('en', {
+      weekday: 'long',
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false
+    }).format(date);
+    return timeStamp
 }

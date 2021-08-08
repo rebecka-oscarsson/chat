@@ -19,14 +19,6 @@ const input = document.querySelector("input");
 sendUserName(socket);
 printErrorMessage();
 
-// console.log(new Date().getTimezoneOffset())
-// console.log(Intl.DateTimeFormat('en', {
-//   weekday: 'long',
-//   hour: "numeric",
-//   minute: "numeric",
-//   hour12: false
-// }).format(new Date()))
-
 //skickar chatmeddelande till backend
 form.addEventListener("submit", (e) => {
   e.preventDefault();
