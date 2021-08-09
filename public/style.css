@@ -84,9 +84,10 @@ label {
 .name {
   font-weight: bold;
   overflow-wrap: normal;
+  margin-bottom: 0.3rem
 }
 
-.time {font-style: italic; text-align: end; font-size: small;}
+.time {font-style: italic; text-align: end; font-size: small; margin-top: 0.3rem}
 
 @media only screen and (max-device-width: 700px) {
   body {
