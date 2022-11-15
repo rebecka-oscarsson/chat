@@ -50,9 +50,10 @@ li {
   padding: 1rem
 }
 
-.userList li:first-child {
+.userList > h1 {
   text-decoration: underline;
   margin-bottom: 0.5rem;
+  font-size: 2rem;
 }
 
 input {
